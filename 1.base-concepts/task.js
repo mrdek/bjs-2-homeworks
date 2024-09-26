@@ -1,60 +1,53 @@
 "use strict";
 
 function solveEquation(a, b, c) {
-  let d = Math.pow(b,2)-4*a*c;
+  let arr = [];
+  let d = b ** 2 - 4 * a * c;
 
   if (d < 0) {
-    return [];
+    return arr;
+  } else if (d === 0) {
+    arr.push(-b / (2 * a));
+  } else {
+    arr.push((-b + Math.sqrt(d)) / (2 * a));
+    arr.push((-b - Math.sqrt(d)) / (2 * a));
   }
-
-  if (d === 0) {
-    console.log(-b/(2*a));
-    return [-b/(2*a)];
-  }
-
-  let arr = [];
-
-  arr.push((-b + Math.sqrt(d) )/(2*a));
-  arr.push((-b - Math.sqrt(d) )/(2*a));
 
   return arr;
 }
 
-function calculateTotalMortgage(percent, contribution, amount, date) {
 
-  if (isNaN(percent)) {
-    return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
+function calculateTotalMortgage(percent, contribution, amount, countMonths) {
+  
+  if (typeof percent !== 'number' || typeof contribution !== 'number' || typeof amount !== 'number' || typeof countMonths !== 'number') {
+    return 'Все аргументы функции должны быть числами';
   }
-
-  if (isNaN(contribution)) {
-    return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
+ 
+  if (percent < 0 || percent > 100) {
+    return 'Процентная ставка должна быть в диапазоне от 0 до 100';
   }
-
-  if (isNaN(amount)) {
-    return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
+ 
+  if (contribution < 0) {
+    return 'Сумма первоначального взноса не может быть отрицательной';
   }
+ 
+  if (amount <= contribution) {
+    return 'Сумма кредита должна быть больше суммы первоначального взноса';
+  }
+ 
+  if (countMonths <= 0) {
+    return 'Срок кредита должен быть положительным числом';
+  }
+ 
+  const monthlyPercent = percent / 100 / 12;
+ 
+  const bodyCredit = amount - contribution;
+ 
+  const monthlyPayment = bodyCredit * (monthlyPercent + monthlyPercent / ((1 + monthlyPercent) ** countMonths - 1));
+ 
+  const totalAmount = monthlyPayment * countMonths;
+ 
+  const roundedTotalAmount = parseFloat(totalAmount.toFixed(2));
 
-  let percentNumber = Number(percent);
-  let contributionNumber = Number(contribution);
-  let amountNumber = Number(amount);
-
-  let creditBody = amountNumber - contributionNumber;
-
-  let n = monthDiff(new Date(), date);
-
-  let percentInFraction = percentNumber / 100;
-
-  let monthlyPercent = percentInFraction / 12;
-
-  let payPerMonth = creditBody * (monthlyPercent + (monthlyPercent / ((Math.pow(1 + monthlyPercent, n)) - 1)));
-
-  let totalAmount = payPerMonth * n;
-
-  return Number(totalAmount.toFixed(2));
+  return roundedTotalAmount;
 }
-
-function monthDiff(dateFrom, dateTo) {
-  return dateTo.getMonth() - dateFrom.getMonth() + 
-    (12 * (dateTo.getFullYear() - dateFrom.getFullYear()));
- }
-
