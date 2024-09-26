@@ -38,6 +38,9 @@ class AlarmClock {
   }
 
   stop() {
+    if (!this.intervalId) {
+      return;
+    }
     clearInterval(this.intervalId);
     this.intervalId = null;
   }
@@ -45,7 +48,7 @@ class AlarmClock {
   resetAllCalls() {
     this.alarmCollection.forEach( setup => setup.canCall = true);
   }
-  
+
   clearAlarms() {
     this.stop();
     this.alarmCollection = [];
