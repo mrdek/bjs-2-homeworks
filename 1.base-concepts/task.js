@@ -14,8 +14,7 @@ function solveEquation(a, b, c) {
   }
 
   return arr;
-}
-10, 20000, 20000, 48
+} 
 
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
   
