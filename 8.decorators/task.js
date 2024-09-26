@@ -30,25 +30,6 @@ function debounceDecoratorNew(func, timeout = 0) {
   let timeoutId = null;
   let canRunFunc = true;
 
-  return function wrapper(...args) {
-    if (!canRunFunc) {
-      return;
-    }
-
-    func.apply(this, args);
-
-    canRunFunc = false;
-
-    timeoutId = setTimeout(() => {
-      canRunFunc = true;
-    }, timeout);
-  }
-}
-
-function debounceDecorator2(func, timeout = 0) {
-  let timeoutId = null;
-  let canRunFunc = true;
-
   function wrapper(...args) {
     if (!canRunFunc) {
       return;
