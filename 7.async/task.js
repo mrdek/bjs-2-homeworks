@@ -50,7 +50,7 @@ class AlarmClock {
       return;
     }
     clearInterval(this.intervalId);
-    this.intervalId = null;
+    //this.intervalId = null;
   }
 
   resetAllCalls() {
@@ -59,6 +59,7 @@ class AlarmClock {
 
   clearAlarms() {
     this.stop();
+    this.intervalId = null;
     this.alarmCollection = [];
   }
 }
