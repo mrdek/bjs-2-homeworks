@@ -15,7 +15,7 @@ function solveEquation(a, b, c) {
 
   return arr;
 }
-
+10, 20000, 20000, 48
 
 function calculateTotalMortgage(percent, contribution, amount, countMonths) {
   
@@ -31,7 +31,7 @@ function calculateTotalMortgage(percent, contribution, amount, countMonths) {
     return 'Сумма первоначального взноса не может быть отрицательной';
   }
  
-  if (amount <= contribution) {
+  if (amount < contribution) {
     return 'Сумма кредита должна быть больше суммы первоначального взноса';
   }
  
