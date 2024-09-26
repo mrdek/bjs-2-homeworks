@@ -30,7 +30,9 @@ class AlarmClock {
   }
 
   start() {
-    if (this.intervalId) return;
+    if (this.intervalId) {
+      return;
+    }
 
     this.intervalId = setInterval(() => {
       const currentTime = this.getCurrentFormattedTime();
