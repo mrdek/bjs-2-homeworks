@@ -1,9 +1,71 @@
-//Задача № 1
 function cachingDecoratorNew(func) {
-  
+  let cache = [];
+
+  function wrapper(...args) {
+      const hash = args.join(',');
+      let idx = cache.findIndex((item)=> item.hash === hash );
+      if (idx !== -1 ) {
+          console.log("Из кэша: " + cache[idx].value);
+          return "Из кэша: " + cache[idx].value;
+      }
+
+      let value = func(...args);
+
+      cache.push({
+        hash,
+        value,
+      });
+
+      if (cache.length > 5) { 
+        cache.shift(0);
+      }
+
+      console.log("Вычисляем: " + value);
+      return "Вычисляем: " + value;  
+  }
+  return wrapper;
 }
 
-//Задача № 2
-function debounceDecoratorNew(func, delay) {
-  
+function debounceDecoratorNew(func, timeout = 0) {
+  let timeoutId = null;
+  let canRunFunc = true;
+
+  return function wrapper(...args) {
+    if (!canRunFunc) {
+      return;
+    }
+
+    func.apply(this, args);
+
+    canRunFunc = false;
+
+    timeoutId = setTimeout(() => {
+      canRunFunc = true;
+    }, timeout);
+  }
 }
+
+function debounceDecorator2(func, timeout = 0) {
+  let timeoutId = null;
+  let canRunFunc = true;
+
+  function wrapper(...args) {
+    if (!canRunFunc) {
+      return;
+    }
+
+    func.apply(this, args);
+    wrapper.count = wrapper.count + 1;
+
+    canRunFunc = false;
+
+    timeoutId = setTimeout(() => {
+      canRunFunc = true;
+    }, timeout);
+  }
+
+  wrapper.count = 0;
+
+  return wrapper;
+}
+
